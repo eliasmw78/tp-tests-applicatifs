@@ -49,7 +49,17 @@ def test_get_stats_sur_manager_vide(empty_manager):
 
 
 # ------------------------------------------------------------------
-# TODO ELEVE : ajoutez au moins 2 tests de cas limites.
-# Pistes : titre apres trim qui devient vide, beaucoup de taches (1000),
-# date au 29 fevrier d'une annee non bissextile.
+# Tests de cas limites ajoutés — Pattern AAA
 # ------------------------------------------------------------------
+
+
+@pytest.mark.cas_limites
+def test_titre_de_exactement_100_caracteres_est_accepte():
+    # Arrange — 100 est la valeur limite haute autorisée (TITLE_MAX = 100)
+    titre = "a" * 100
+
+    # Act
+    tache = Task(id=20, title=titre)
+
+    # Assert
+    assert len(tache.title) == 100

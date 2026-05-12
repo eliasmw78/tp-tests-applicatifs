@@ -71,5 +71,17 @@ def test_task_avec_titre_invalide_rejete():
 
 
 # ------------------------------------------------------------------
-# TODO ELEVE : ajoutez au moins 1 test d'entree invalide supplementaire.
+# Tests d'entrées invalides ajoutés — Pattern AAA
 # ------------------------------------------------------------------
+
+
+@pytest.mark.invalides
+def test_priorite_fantaisiste_ultra_high_leve_invalid_input_error():
+    # Arrange
+    priorite_invalide = "ultra-high"
+
+    # Act / Assert
+    with pytest.raises(InvalidInputError) as exc_info:
+        validate_priority(priorite_invalide)
+
+    assert "ultra-high" in str(exc_info.value)
