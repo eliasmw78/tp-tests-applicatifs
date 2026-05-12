@@ -47,7 +47,70 @@ def test_task_to_dict_renvoie_les_bons_champs():
 
 
 # ------------------------------------------------------------------
-# TODO ELEVE : ajoutez vos propres tests unitaires ci-dessous.
-# Idees : description optionnelle, sequence priorite low<medium<high,
-# format ISO de la date.
+# Tests unitaires ajoutés — Pattern AAA
 # ------------------------------------------------------------------
+
+
+@pytest.mark.unitaire
+def test_task_description_optionnelle_est_vide_par_defaut():
+    # Arrange
+    titre = "Tache sans description"
+
+    # Act
+    tache = Task(id=10, title=titre)
+
+    # Assert
+    assert tache.description == ""
+
+
+@pytest.mark.unitaire
+def test_task_description_optionnelle_est_conservee_quand_fournie():
+    # Arrange
+    titre = "Tache avec description"
+    description = "Ceci est une description détaillée."
+
+    # Act
+    tache = Task(id=11, title=titre, description=description)
+
+    # Assert
+    assert tache.description == description
+
+
+@pytest.mark.unitaire
+def test_task_created_at_est_au_format_iso_8601():
+    # Arrange
+    import re
+    # Regex correspondant au format ISO 8601 sans timezone (ex: 2026-05-12T09:15:00)
+    pattern_iso = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$"
+
+    # Act
+    tache = Task(id=12, title="Vérifier la date")
+
+    # Assert
+    assert re.match(pattern_iso, tache.created_at), (
+        f"created_at '{tache.created_at}' n'est pas au format ISO 8601"
+    )
+
+
+@pytest.mark.unitaire
+def test_task_to_dict_contient_tous_les_champs_attendus():
+    # Arrange
+    tache = Task(
+        id=13,
+        title="Mission complète",
+        description="Une vraie description",
+        priority="low",
+        status="done",
+    )
+
+    # Act
+    resultat = tache.to_dict()
+
+    # Assert
+    assert resultat["id"] == 13
+    assert resultat["title"] == "Mission complète"
+    assert resultat["description"] == "Une vraie description"
+    assert resultat["priority"] == "low"
+    assert resultat["status"] == "done"
+    assert resultat["due_date"] is None
+    assert "created_at" in resultat
