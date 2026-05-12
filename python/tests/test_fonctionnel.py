@@ -39,3 +39,23 @@ def test_liste_triee_par_priorite_descendante(manager_with_3_tasks):
 def test_get_task_inexistante_leve_une_erreur_explicite(empty_manager):
     with pytest.raises(TaskNotFoundError):
         empty_manager.get_task(999)
+
+
+@pytest.mark.fonctionnel
+def test_filtre_done_nexclut_aucune_tache_todo_ou_doing():
+    # Arrange — on crée un mix de statuts pour rendre le filtre discriminant
+    mgr = TaskManager()
+    t1 = mgr.create_task("Tache todo")          # statut : todo
+    t2 = mgr.create_task("Tache doing")         # statut : doing
+    t3 = mgr.create_task("Tache done")          # statut : done
+    mgr.update_task(t2.id, status="doing")
+    mgr.update_task(t3.id, status="done")
+
+    # Act
+    taches_done = mgr.list_tasks(status_filter="done")
+
+    # Assert — aucune tâche retournée ne doit avoir le statut 'todo' ou 'doing'
+    statuts_obtenus = {t.status for t in taches_done}
+    assert "todo" not in statuts_obtenus
+    assert "doing" not in statuts_obtenus
+    assert all(t.status == "done" for t in taches_done)

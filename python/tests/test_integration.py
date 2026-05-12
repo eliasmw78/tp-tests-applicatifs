@@ -31,6 +31,25 @@ def test_chargement_depuis_fichier_inexistant_renvoie_liste_vide(tmp_path):
 
 
 @pytest.mark.integration
+def test_modification_statut_persistee_sur_disque(tmp_path):
+    """Cycle complet : création → modification → sauvegarde → rechargement."""
+    # Arrange
+    fichier = tmp_path / "taches.json"
+    mgr1 = TaskManager()
+    tache = mgr1.create_task("Rediger le rapport")
+    mgr1.update_task(tache.id, status="doing")
+
+    # Act — sauvegarde puis rechargement dans un manager vierge
+    save_tasks(str(fichier), mgr1.list_tasks(sort_by="id"))
+    mgr2 = TaskManager()
+    mgr2.replace_all(load_tasks(str(fichier)))
+    tache_rechargee = mgr2.get_task(tache.id)
+
+    # Assert — le statut 'doing' a survécu au cycle disque
+    assert tache_rechargee.status == "doing"
+
+
+@pytest.mark.integration
 def test_replace_all_remet_le_compteur_id_a_la_bonne_valeur(tmp_path):
     fichier = tmp_path / "taches.json"
     mgr1 = TaskManager()
