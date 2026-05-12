@@ -67,12 +67,12 @@ export class TaskManager {
   }
 
   deleteTask(taskId: number): boolean {
-    // BUG VOLONTAIRE : on traite taskId comme un INDEX au lieu d'un ID.
-    // A corriger en Partie 4 du TP avec un test de regression.
-    if (taskId < 0 || taskId >= this.tasks.length) {
+    const initialLength = this.tasks.length;
+    this.tasks = this.tasks.filter((t) => t.id !== taskId);
+    
+    if (this.tasks.length === initialLength) {
       throw new TaskNotFoundError(`Aucune tache trouvee avec id=${taskId}.`);
     }
-    this.tasks.splice(taskId, 1);
     return true;
   }
 
