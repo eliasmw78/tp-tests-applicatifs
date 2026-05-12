@@ -1,5 +1,7 @@
 # TP Tests Applicatifs
 
+[![CI](https://github.com/eliasmw78/tp-tests-applicatifs/actions/workflows/ci.yml/badge.svg)](https://github.com/eliasmw78/tp-tests-applicatifs/actions/workflows/ci.yml)
+
 Mini gestionnaire de tâches implémenté en **Python (pytest)** et en **TypeScript (Vitest)**, conçu pour pratiquer les huit types de tests applicatifs sur un projet concret, puis livrer un dépôt GitHub avec une chaîne d'intégration continue (CI) verte.
 
 Le support PDF du TP (`TP-Tests-Applicatifs.pdf`) t'a été remis par ton formateur. Tu travailles avec le PDF et ce dépôt en parallèle.
@@ -234,3 +236,6 @@ Coche cette mini-checklist avant de remettre ton lien GitHub :
 | Flaky test | Test qui passe ou échoue de façon aléatoire (mauvais, à corriger) |
 
 Bon TP.
+
+Ce que j'ai appris : 
+Lors de ce TP, j'ai appris à structurer des tests en utilisant le pattern AAA (Arrange-Act-Assert) pour garantir leur lisibilité. J'ai compris l'importance de tester les cas limites et les entrées invalides pour sécuriser le code. La mise en place d'un test de régression m'a permis de corriger durablement le bug-001. Enfin, l'utilisation de GitHub Actions m'a montré comment l'intégration continue permet de valider automatiquement la qualité du code à chaque modification.
