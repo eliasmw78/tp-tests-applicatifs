@@ -13,6 +13,7 @@ A FAIRE PAR L'ELEVE :
 
 import pytest
 from src.task_manager import TaskManager
+from src.exceptions import TaskNotFoundError
 
 
 @pytest.mark.regression
@@ -41,7 +42,19 @@ def test_bug_001_delete_task_supprime_par_id_pas_par_index():
 
 
 # ------------------------------------------------------------------
-# TODO ELEVE - Partie 4 :
-# Ajoutez un 2eme test de regression qui couvre un autre scenario
-# revelateur du meme bug. Ex : supprimer la derniere tache.
+# Test de régression ajouté
 # ------------------------------------------------------------------
+
+@pytest.mark.regression
+def test_bug_001_delete_task_id_inexistant_leve_erreur():
+    """
+    Vérifie qu'essayer de supprimer un ID qui n'existe pas
+    lève bien l'erreur TaskNotFoundError au lieu d'un IndexError.
+    """
+    mgr = TaskManager()
+    mgr.create_task("Tache id=1")
+    
+    with pytest.raises(TaskNotFoundError) as exc_info:
+        mgr.delete_task(999)
+        
+    assert "999" in str(exc_info.value)

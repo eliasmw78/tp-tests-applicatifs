@@ -71,13 +71,12 @@ class TaskManager:
         return task
 
     def delete_task(self, task_id):
-        # BUG VOLONTAIRE : on traite task_id comme un INDEX au lieu d'un ID.
-        # Symptome visible : apres avoir cree 3 taches puis delete_task(2),
-        # la tache reellement supprimee n'est pas celle avec id=2.
-        # A corriger en Partie 4 du TP avec un test de regression.
-        if task_id < 0 or task_id >= len(self._tasks):
+        longueur_initiale = len(self._tasks)
+        self._tasks = [t for t in self._tasks if t.id != task_id]
+        
+        if len(self._tasks) == longueur_initiale:
             raise TaskNotFoundError(f"Aucune tache trouvee avec id={task_id}.")
-        self._tasks.pop(task_id)
+            
         return True
 
     def get_stats(self):
